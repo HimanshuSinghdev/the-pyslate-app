@@ -69,7 +69,7 @@
   @media(min-width:900px){
     main{ flex-direction:row; align-items:stretch; min-height:0; overflow:hidden; }
     .editor-pane{ flex:1.3; min-height:0; }
-    .io-pane{ flex:1; display:flex; flex-direction:column; min-height:0; }
+    .io-pane{ flex:1; display:flex; flex-direction:column; min-height:0; overflow-y:auto; }
     #app{ height:100vh; }
   }
 
@@ -190,14 +190,15 @@
     line-height:1.5;
   }
   #stdinBox::placeholder{ color:var(--text-faint); }
-  .turtle-block{ margin-top:10px; }
+  .turtle-block{ margin-top:10px; flex-shrink:0; }
   .turtle-block.hidden{ display:none; }
   #turtleCanvas{
-    width:100%; height:auto; aspect-ratio: 600 / 460; display:block;
+    width:100%; max-width:380px; margin:0 auto;
+    height:auto; aspect-ratio: 600 / 460; display:block;
     background:#ffffff; border:1px solid var(--border); border-radius:9px;
   }
   #outputBox img{ max-width:100%; border-radius:6px; margin:6px 0; display:block; }
-  .output-block{ flex:1; margin-top:10px; min-height:0; display:flex; flex-direction:column; }
+  .output-block{ flex:1 1 200px; margin-top:10px; min-height:0; display:flex; flex-direction:column; }
   #outputBox{
     flex:1; margin:0; overflow:auto; min-height:160px; max-height:46vh;
     background:var(--bg-deep); border:1px solid var(--border); border-radius:9px;
