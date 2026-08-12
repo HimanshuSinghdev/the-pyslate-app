@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PySlate — Python Runner</title>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0b0f14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PySlate">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<div id="app">
+  <header>
+    <div class="brand">
+      <h1><span class="dot">&gt;_</span> PySlate</h1>
+      <span class="proj-name" id="projNameLabel">untitled</span>
+    </div>
+    <div class="hdr-actions">
+      <button class="icon-btn" id="newBtn" title="New">＋ New</button>
+      <button class="icon-btn" id="openFileBtn" title="Open a .py file">📂 Open</button>
+      <button class="icon-btn" id="projectsBtn" title="Projects">▤ Projects</button>
+      <button class="icon-btn accent" id="saveBtn" title="Save">⬇ Save</button>
+      <button class="icon-btn" id="downloadBtn" title="Download .py">.py</button>
+      <input type="file" id="openFileInput" accept=".py,text/x-python,text/plain" style="display:none">
+    </div>
+  </header>
+
+  <main>
+    <section class="editor-pane">
+      <div class="pane-label"><span>SCRIPT</span><button class="format-btn" id="formatBtn" title="Auto-format indentation">🧹 Format</button></div>
+      <textarea id="code-editor"></textarea>
+      <div class="keyboard">
+        <div class="key-row" id="symbolRow"></div>
+        <div class="key-row" id="snippetRow"></div>
+      </div>
+      <div class="run-bar">
+        <button class="btn btn-run" id="runBtn">▶ Run</button>
+        <button class="btn btn-stop" id="stopBtn">■ Stop</button>
+        <button class="btn btn-clear" id="clearBtn">⌫ Clear Terminal</button>
+      </div>
+      <div class="status-line"><span class="status-dot" id="statusDot"></span><span id="statusText">Booting Python runtime…</span></div>
+    </section>
+
+    <section class="io-pane">
+      <div class="io-block">
+        <div class="pane-label"><span>INPUT</span><span class="hint" id="inputHint">one value per line → input()</span></div>
+        <textarea id="stdinBox" placeholder="42&#10;hello&#10;3.14"></textarea>
+      </div>
+      <div class="io-block turtle-block hidden" id="turtlePanel">
+        <div class="pane-label"><span>TURTLE CANVAS</span></div>
+        <canvas id="turtleCanvas" width="600" height="460"></canvas>
+      </div>
+      <div class="io-block output-block">
+        <div class="pane-label"><span>OUTPUT</span></div>
+        <pre id="outputBox"><span class="placeholder">Run your script to see output here.</span></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="credit-footer">&gt; <span id="creditText"></span><span class="credit-cursor"></span></footer>
+</div>
+
+<!-- Save modal -->
+<div class="modal-backdrop hidden" id="saveModalBackdrop">
+  <div class="modal">
+    <h2>Save project <span class="x" data-close="saveModalBackdrop">×</span></h2>
+    <input type="text" id="saveNameInput" placeholder="Project name" maxlength="60">
+    <div class="modal-actions">
+      <button class="btn btn-clear" data-close="saveModalBackdrop">Cancel</button>
+      <button class="btn btn-primary" id="confirmSaveBtn">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Projects modal -->
+<div class="modal-backdrop hidden" id="projectsModalBackdrop">
+  <div class="modal">
+    <h2>Projects <span class="x" data-close="projectsModalBackdrop">×</span></h2>
+    <div class="proj-list" id="projList"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js" crossorigin="anonymous"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
