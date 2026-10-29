@@ -6,7 +6,7 @@
 <title>PySlate — Python Runner</title>
 
 <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#0b0f14">
+<meta name="theme-color" content="#12171a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,54 +15,69 @@
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="./css/style.css">
 </head>
-<body>
+<body data-state="boot">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-open" viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.2l2 2.2h8.8A1.5 1.5 0 0 1 21 9.7V17.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-stack" viewBox="0 0 24 24"><path d="M12 4 3 8.5 12 13l9-4.5zM3 12.5l9 4.5 9-4.5M3 16.5l9 4.5 9-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5zM8 4v5h7V4M8 20v-6h8v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-wand" viewBox="0 0 24 24"><path d="M4 20 15 9m0 0 2-2 2 2-2 2zM6 5v3M4.5 6.5h3M18 15v3M16.5 16.5h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2.2" fill="currentColor"/></symbol>
+    <symbol id="i-eraser" viewBox="0 0 24 24"><path d="m8 19-4-4a1.6 1.6 0 0 1 0-2.3l8-8a1.6 1.6 0 0 1 2.3 0l4 4a1.6 1.6 0 0 1 0 2.3L11 19zM11 19h9M7.5 11.5l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
 
 <div id="app">
   <header>
     <div class="brand">
-      <h1><span class="dot">&gt;_</span> PySlate</h1>
+      <h1><span class="dot">&gt;_</span>PySlate</h1>
       <span class="proj-name" id="projNameLabel">untitled</span>
     </div>
     <div class="hdr-actions">
-      <button class="icon-btn" id="newBtn" title="New">＋ New</button>
-      <button class="icon-btn" id="openFileBtn" title="Open a .py file">📂 Open</button>
-      <button class="icon-btn" id="projectsBtn" title="Projects">▤ Projects</button>
-      <button class="icon-btn accent" id="saveBtn" title="Save">⬇ Save</button>
-      <button class="icon-btn" id="downloadBtn" title="Download .py">.py</button>
+      <button class="icon-btn" id="newBtn" title="New"><svg class="ico"><use href="#i-plus"/></svg>New</button>
+      <button class="icon-btn" id="openFileBtn" title="Open a .py file"><svg class="ico"><use href="#i-open"/></svg>Open</button>
+      <button class="icon-btn" id="projectsBtn" title="Projects"><svg class="ico"><use href="#i-stack"/></svg>Projects</button>
+      <button class="icon-btn accent" id="saveBtn" title="Save"><svg class="ico"><use href="#i-save"/></svg>Save</button>
+      <button class="icon-btn" id="downloadBtn" title="Download .py"><svg class="ico"><use href="#i-down"/></svg>.py</button>
       <input type="file" id="openFileInput" accept=".py,text/x-python,text/plain" style="display:none">
     </div>
+    <div class="hdr-glow" aria-hidden="true"></div>
   </header>
 
   <main>
     <section class="editor-pane">
-      <div class="pane-label"><span>SCRIPT</span><button class="format-btn" id="formatBtn" title="Auto-format indentation">🧹 Format</button></div>
+      <div class="pane-label"><span>Script</span><button class="format-btn" id="formatBtn" title="Auto-format indentation"><svg class="ico"><use href="#i-wand"/></svg>Format</button></div>
       <textarea id="code-editor"></textarea>
       <div class="keyboard">
         <div class="key-row" id="symbolRow"></div>
         <div class="key-row" id="snippetRow"></div>
       </div>
       <div class="run-bar">
-        <button class="btn btn-run" id="runBtn">▶ Run</button>
-        <button class="btn btn-stop" id="stopBtn">■ Stop</button>
-        <button class="btn btn-clear" id="clearBtn">⌫ Clear Terminal</button>
+        <button class="btn btn-run" id="runBtn"><svg class="ico"><use href="#i-play"/></svg>Run</button>
+        <button class="btn btn-stop" id="stopBtn"><svg class="ico"><use href="#i-stop"/></svg>Stop</button>
+        <button class="btn btn-clear" id="clearBtn"><svg class="ico"><use href="#i-eraser"/></svg>Clear</button>
       </div>
       <div class="status-line"><span class="status-dot" id="statusDot"></span><span id="statusText">Booting Python runtime…</span></div>
     </section>
 
     <section class="io-pane">
       <div class="io-block">
-        <div class="pane-label"><span>INPUT</span><span class="hint" id="inputHint">one value per line → input()</span></div>
+        <div class="pane-label"><span>Input</span><span class="hint" id="inputHint">one value per line → input()</span></div>
         <textarea id="stdinBox" placeholder="42&#10;hello&#10;3.14"></textarea>
       </div>
       <div class="io-block turtle-block hidden" id="turtlePanel">
-        <div class="pane-label"><span>TURTLE CANVAS</span></div>
+        <div class="pane-label"><span>Turtle canvas</span></div>
         <canvas id="turtleCanvas" width="600" height="460"></canvas>
       </div>
       <div class="io-block output-block">
-        <div class="pane-label"><span>OUTPUT</span></div>
+        <div class="pane-label"><span>Output</span></div>
         <pre id="outputBox"><span class="placeholder">Run your script to see output here.</span></pre>
       </div>
     </section>

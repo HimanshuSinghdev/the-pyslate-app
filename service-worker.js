@@ -16,7 +16,7 @@
 //      technique). Where real headers are already present (Netlify), the
 //      page is already isolated before this ever matters.
 
-const SHELL_CACHE = 'pyslate-shell-v2';
+const SHELL_CACHE = 'pyslate-shell-v3';
 const SHELL_FILES = [
   './',
   './index.html',

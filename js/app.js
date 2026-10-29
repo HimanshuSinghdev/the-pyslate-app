@@ -162,6 +162,11 @@
   function setStatus(mode, text){
     statusDot.className = 'status-dot' + (mode ? ' ' + mode : '');
     statusText.textContent = text;
+    // Drives the theme's state-aware motion (orbiting light, header glow).
+    let state = mode || 'idle';
+    if(mode === 'busy' && /^Waiting/.test(text)) state = 'waiting';
+    else if(mode === 'busy' && /^Booting/.test(text)) state = 'boot';
+    document.body.dataset.state = state;
   }
 
   /* ---------------- Turtle canvas rendering ---------------- */
